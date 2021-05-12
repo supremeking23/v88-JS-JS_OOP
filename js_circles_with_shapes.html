@@ -6,9 +6,9 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Document</title>
 		<style>
-			body * {
+			/* body * {
 				outline: 1px dashed red;
-			}
+			} */
 			header {
 				padding: 10px;
 				display: flex;
@@ -71,50 +71,94 @@
 		<script src="./js_circle_with_shapes.js"></script>
 		<script>
 			document.addEventListener("DOMContentLoaded", function (event) {
-				let color_buttons = document.querySelectorAll(".color-button-group button");
+				// let color_buttons = document.querySelectorAll(".color-button-group button");
 				let shape_group = document.querySelectorAll(".shape-button-group button");
-				let active_shape = shape_group[0];
-				let active_color = color_buttons[0];
-				active_shape.classList.add("btn-green");
+				let buttons = document.querySelectorAll("button");
+				let canvas = document.querySelector(".canvas");
 
-				for (let i = 0; i < color_buttons.length; i++) {
-					console.log(color_buttons[i]);
+				// let btn_circle = document.querySelector(".btn-circle");
+				// let btn_square = document.querySelector(".btn-square");
+				// let btn_star = document.querySelector(".btn-star");
+
+				// btn_circle.addEventListener("click", function () {
+				// 	this.classList.add("btn-green");
+				// 	btn_square.classList.remove("btn-green");
+				// 	btn_star.classList.remove("btn-green");
+				// });
+
+				// btn_square.addEventListener("click", function () {
+				// 	this.classList.add("btn-green");
+				// 	btn_circle.classList.remove("btn-green");
+				// 	btn_star.classList.remove("btn-green");
+				// });
+
+				// btn_star.addEventListener("click", function () {
+				// 	this.classList.add("btn-green");
+				// 	btn_square.classList.remove("btn-green");
+				// 	btn_circle.classList.remove("btn-green");
+				// });
+				function settingActiveShape(shape, button) {
+					let temp_shape = shape;
+					temp_shape.classList.remove("btn-green");
+					active_shape = button;
+					active_shape.classList.add("btn-green");
+
+					return active_shape;
 				}
+				let active_color = buttons[0];
+				let active_shape = buttons[3];
+				active_shape.classList.add(active_color.classList[2]);
 
-				for (let i = 0; i < shape_group.length; i++) {
-					shape_group[i].addEventListener("click", function () {
-						// this.classList.add("btn-green");
-						// active_shape = shape_group[i];
-						// if (shape_group[i].classList.contains("btn-circle")) {
-						// 	shape_group[i].classList.add("btn-green");
-						// } else if (shape_group[i].classList.contains("btn-square")) {
-						// 	shape_group[i].classList.add("btn-green");
-						// } else {
-						// 	shape_group[i].classList.remove("btn-green");
-						// }
+				for (let i = 0; i < buttons.length; i++) {
+					buttons[i].addEventListener("click", function () {
+						if (buttons[i].classList.contains("shapes")) {
+							// buttons[i].classList.add("btn-green");
+							let shape = settingActiveShape(active_shape, buttons[i]);
+							active_shape = shape;
+						}
 
-						shape_group[0].classList.remove("btn-green");
-						shape_group[i].classList.remove("btn-green");
-						shape_group[i].classList.add("btn-green");
+						if (buttons[i].classList.contains("colors")) {
+							// active_color = buttons[i];
+							// active_shape = buttons[3];
+							// active_shape.classList.add("btn-green");
+						}
+
+						if (buttons[i].classList.contains("btn-reset")) {
+							canvas.innerHTML = "";
+						}
 					});
 				}
 
-				// load in init
+				canvas.addEventListener("click", function (e) {
+					console.log(active_shape);
+
+					let shapeColor = "red";
+					let shape;
+					if (active_shape.classList[2] == "btn-circle") {
+						shape = new Circles(e.clientY, e.clientX, shapeColor);
+					} else if (active_shape.classList[2] == "btn-square") {
+						shape = new Square(e.clientY, e.clientX, shapeColor);
+					} else {
+						shape = new Star(e.clientY, e.clientX, shapeColor);
+					}
+
+					canvas.innerHTML += shape.display();
+				});
 			});
 		</script>
 	</head>
 	<body>
 		<header>
 			<div class="color-button-group">
-				<button type="button" class="btn btn-green">Green</button>
-				<button type="button" class="btn btn-red">Red</button>
-				<button type="button" class="btn btn-yellow">Blue</button>
+				<button type="button" class="btn colors btn-green">Green</button>
+				<button type="button" class="btn colors btn-red">Red</button>
+				<button type="button" class="btn colors btn-yellow">Yellow</button>
 			</div>
 
 			<div class="shape-button-group">
-				<button type="button" class="btn btn-circle"></button>
-				<button type="button" class="btn btn-square"></button>
-				<button type="button" class="btn btn-star"></button>
+				<button type="button" class="btn shapes btn-circle"></button>
+				<button type="button" class="btn shapes btn-square"></button>
+				<button type="button" class="btn shapes btn-star"></button>
 			</div>
 
 			<button type="button" class="btn btn-reset">Reset</button>
