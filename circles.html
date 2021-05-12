@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<script src="./circle.js"></script>
+		<script>
+			document.addEventListener("DOMContentLoaded", function (event) {
+				// let cLib = new Circle();
+				// document.querySelector("#canvas").innerHTML = cLib.draw_circle();
+				let cLib = new Circle("#canvas");
+				cLib.draw_circle(100);
+
+				function shrink() {
+					let shapes = document.querySelectorAll("p");
+					for (let i = 0; i < shapes.length; i++) {
+						let previousRadius = shapes[i].style.borderRadius;
+						let newRadius = parseInt(previousRadius) - 10;
+						shapes[i].style.borderRadius = `${newRadius}px`;
+
+						shapes[i].style.height = `${parseInt(shapes[i].style.height) + 10}px`;
+						shapes[i].style.width = `${parseInt(shapes[i].style.width) + 10}px`;
+						if (parseInt(shapes[i].style.height) === 300 && parseInt(shapes[i].style.width) === 300) {
+							shapes[i].remove();
+						}
+					}
+				}
+
+				setInterval(() => {
+					// console.log("hi");
+					shrink();
+				}, 1000);
+			});
+		</script>
+	</head>
+	<body>
+		<div id="canvas"></div>
+	</body>
+</html>
