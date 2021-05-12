@@ -29,17 +29,26 @@ class Prosecutor extends Person {
 	}
 
 	// set a case
-	prosecute(defendant, case_title) {
-		// console.log(`set case`);
-		// console.log(`defendant: ${defendant.name}, case: ${case_title.title}`);
-		defendant.case_title = case_title.title;
+	prosecute(defendant, case_detail) {
+		defendant.case_title = case_detail.title;
+		let is_convicted = false;
+		if (case_detail.ageLimit.minAge < defendant.age && case_detail.ageLimit.maxAge > defendant.age) {
+			is_convicted = true;
+		} else {
+			// console.log("Not Guilty");
+			is_convicted = false;
+		}
+		defendant.is_convicted = is_convicted;
+		defendant.release_date = case_detail.computeReleaseDate(new Date());
 	}
 }
 
 class Defendant extends Person {
-	constructor(name, age, case_title) {
+	constructor(name, age) {
 		super(name, age);
-		this._case_title = case_title;
+		this._case_title;
+		this._is_convicted;
+		this.release_date;
 	}
 
 	// store in object, case_title and date
@@ -50,6 +59,22 @@ class Defendant extends Person {
 
 	set case_title(newCaseTitle) {
 		this._case_title = newCaseTitle;
+	}
+
+	get is_convicted() {
+		return this._is_convicted;
+	}
+
+	set is_convicted(value) {
+		this._is_convicted = value;
+	}
+
+	get release_date() {
+		return this._release_date;
+	}
+
+	set release_date(value) {
+		this._release_date = value;
 	}
 }
 
@@ -68,6 +93,10 @@ class Case {
 		};
 	}
 
+	get ageLimit() {
+		return this._ageLimit;
+	}
+
 	get title() {
 		return this._title;
 	}
@@ -76,50 +105,58 @@ class Case {
 		this._title = setTitle;
 	}
 
+	get imprisonmentTerm() {
+		return this._imprisonmentTerm;
+	}
+
 	computeReleaseDate(startDate) {
-		// let currentDate = new Date();
+		let currentDate = startDate;
 		// let dayDifference
+		let dateRendered = {
+			years: currentDate.getFullYear() + this.imprisonmentTerm.years,
+			months: currentDate.getMonth() + this.imprisonmentTerm.months,
+			days: currentDate.getDate() + this.imprisonmentTerm.days,
+		};
+		return dateRendered;
 	}
 }
 
 class TrialCourt {
-	constructor() {
-		this._verdict;
-	}
+	constructor() {}
 
-	get verdict() {
-		return this._verdict;
-	}
-
-	set verdict(newVerdict) {
-		this._verdict = newVerdict;
-	}
-
-	getVerdict() {
-		const VERDICT_DICISION = ["GUILTY", "NOT GUILTY"];
-		return VERDICT_DICISION[Math.floor(Math.random() * VERDICT_DICISION.length)];
+	getVerdict(defendant) {
+		var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		if (defendant.is_convicted) {
+			console.log(`GUILTY`);
+			console.log(`Release Date: ${months[defendant.release_date.months]} ${defendant.release_date.days} ${defendant.release_date.years}`);
+		} else {
+			console.log(`NOT GUILTY`);
+		}
 	}
 
 	initiateTrial(defendant, prosecutor) {
-		this.verdict = this.getVerdict();
 		console.log(`Name: ${defendant.name}`);
 		console.log(`Age: ${defendant.age} years old`);
 		console.log(`Case Title: ${defendant.case_title}`);
+		console.log(`is convicted: ${defendant.is_convicted}`);
 		console.log(`Filed by: ${prosecutor.name}`);
-		console.log(`Verdict: ${this._verdict}`);
-		if (this.verdict === "GUILTY") {
-			console.log(`Release Date: ${new Date().getFullYear() + 3}, ${new Date().getMonth() + 3} , ${new Date().getDay() + 3} `);
-		}
+		this.getVerdict(defendant);
 	}
 }
 
 let case1 = new Case("Murder", 3, 3, 3, 18, 78);
+
 let prosecutor = new Prosecutor("John", 44);
 let defendant1 = new Defendant("George", 23);
 prosecutor.prosecute(defendant1, case1);
-// TrialCourt.initiateTrial(defendant1, prosecutor);
-
-trialOne = new TrialCourt();
-
+let trialOne = new TrialCourt();
 trialOne.initiateTrial(defendant1, prosecutor);
-// console.log(defendant1.name);
+
+console.log(`\n\n=========== Defendant 2============`);
+let defendant2 = new Defendant("Chris", 7);
+prosecutor.prosecute(defendant2, case1);
+let trialTwo = new TrialCourt();
+trialTwo.initiateTrial(defendant2, prosecutor);
+
+// console.log(`\n\n=========== Case 2============`);
+// let case2 = new Case("Malic")
