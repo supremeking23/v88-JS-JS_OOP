@@ -73,7 +73,20 @@ class Desk {
 	};
 }
 
-let deskOne = new Desk("asd");
+let deskOne = new Desk("Lenovo");
 deskOne.displayInfo();
 deskOne.updateColor("red");
 deskOne.displayInfo();
+deskOne.updateColor("blue");
+deskOne.displayInfo();
+deskOne.updateColor("Yellow");
+deskOne.displayInfo();
+console.log(`\n===================================`);
+let deskTwo = new Desk("HP");
+deskTwo.displayInfo();
+deskTwo.updateColor("red");
+deskTwo.displayInfo();
+deskTwo.updateColor("blue");
+deskTwo.displayInfo();
+deskTwo.updateColor("Yellow");
+deskTwo.displayInfo();

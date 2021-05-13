@@ -72,58 +72,37 @@
 		<script>
 			document.addEventListener("DOMContentLoaded", function (event) {
 				// let color_buttons = document.querySelectorAll(".color-button-group button");
-				let shape_group = document.querySelectorAll(".shape-button-group button");
+				// let shape_group = document.querySelectorAll(".shape-button-group button");
 				let buttons = document.querySelectorAll("button");
 				let canvas = document.querySelector(".canvas");
 
-				// let btn_circle = document.querySelector(".btn-circle");
-				// let btn_square = document.querySelector(".btn-square");
-				// let btn_star = document.querySelector(".btn-star");
-
-				// btn_circle.addEventListener("click", function () {
-				// 	this.classList.add("btn-green");
-				// 	btn_square.classList.remove("btn-green");
-				// 	btn_star.classList.remove("btn-green");
-				// });
-
-				// btn_square.addEventListener("click", function () {
-				// 	this.classList.add("btn-green");
-				// 	btn_circle.classList.remove("btn-green");
-				// 	btn_star.classList.remove("btn-green");
-				// });
-
-				// btn_star.addEventListener("click", function () {
-				// 	this.classList.add("btn-green");
-				// 	btn_square.classList.remove("btn-green");
-				// 	btn_circle.classList.remove("btn-green");
-				// });
-				function settingActiveShape(shape, button) {
-					let temp_shape = shape;
-					temp_shape.classList.remove("btn-green");
-					active_shape = button;
-					active_shape.classList.add("btn-green");
-
-					return active_shape;
-				}
 				let active_color = buttons[0];
 				let active_shape = buttons[3];
 				active_shape.classList.add(active_color.classList[2]);
 
+				function settingActiveShape(shape, button, color) {
+					let temp_shape = shape; //previous button
+					temp_shape.classList.remove(color.classList[2]);
+					let active_shape = button;
+					active_shape.classList.add(color.classList[2]);
+
+					return active_shape;
+				}
+
 				for (let i = 0; i < buttons.length; i++) {
 					buttons[i].addEventListener("click", function () {
+						let shape;
 						if (buttons[i].classList.contains("shapes")) {
-							// buttons[i].classList.add("btn-green");
-							let shape = settingActiveShape(active_shape, buttons[i]);
-							active_shape = shape;
-						}
-
-						if (buttons[i].classList.contains("colors")) {
-							// active_color = buttons[i];
-							// active_shape = buttons[3];
-							// active_shape.classList.add("btn-green");
-						}
-
-						if (buttons[i].classList.contains("btn-reset")) {
+							active_shape = settingActiveShape(active_shape, buttons[i], active_color);
+							active_shape;
+						} else if (buttons[i].classList.contains("colors")) {
+							let temp_color = active_color;
+							active_color = buttons[i];
+							let temp_shape = active_shape;
+							active_shape = buttons[3];
+							temp_shape.classList.remove(temp_color.classList[2]);
+							active_shape.classList.add(active_color.classList[2]);
+						} else if (buttons[i].classList.contains("btn-reset")) {
 							canvas.innerHTML = "";
 						}
 					});
@@ -132,7 +111,7 @@
 				canvas.addEventListener("click", function (e) {
 					console.log(active_shape);
 
-					let shapeColor = "red";
+					let shapeColor = active_color.classList[2];
 					let shape;
 					if (active_shape.classList[2] == "btn-circle") {
 						shape = new Circles(e.clientY, e.clientX, shapeColor);
@@ -141,6 +120,8 @@
 					} else {
 						shape = new Star(e.clientY, e.clientX, shapeColor);
 					}
+
+					console.log(active_shape.classList[2]);
 
 					canvas.innerHTML += shape.display();
 				});
