@@ -114,12 +114,16 @@ class Circle {
 	draw_circle = function (number_of_cirle) {
 		let html = ``;
 		for (let i = 0; i < number_of_cirle; i++) {
+			// html += `<p style="position: absolute; top: ${this.generateRandomXCoordiate(1, 600) - 40}px; left: ${
+			// 	this.generateRandomYCoordiate(1, 1300) - 80
+			// }px; width: 200px; height: 200px; border-radius:${this.generateRandomRadius(
+			// 	10,
+			// 	200
+			// )}px; background-color: ${this.generateRandomColor()}"></p>`;
+
 			html += `<p style="position: absolute; top: ${this.generateRandomXCoordiate(1, 600) - 40}px; left: ${
 				this.generateRandomYCoordiate(1, 1300) - 80
-			}px; width: 200px; height: 200px; border-radius:${this.generateRandomRadius(
-				10,
-				200
-			)}px; background-color: ${this.generateRandomColor()}"></p>`;
+			}px; width: 200px; height: 200px; border-radius:50%; background-color: ${this.generateRandomColor()}"></p>`;
 		}
 
 		// return html;

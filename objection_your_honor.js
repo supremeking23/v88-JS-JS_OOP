@@ -23,12 +23,13 @@ class Person {
 	}
 }
 
+// ** class Prosecutor will inherit class Person properties/methods
 class Prosecutor extends Person {
 	constructor(name, age) {
 		super(name, age);
 	}
 
-	// set a case
+	// ** SET Case
 	prosecute(defendant, case_detail) {
 		defendant.case_title = case_detail.title;
 		let is_convicted = false;
@@ -43,6 +44,7 @@ class Prosecutor extends Person {
 	}
 }
 
+// ** class Defendant will inherit class Person properties/methods
 class Defendant extends Person {
 	constructor(name, age) {
 		super(name, age);
