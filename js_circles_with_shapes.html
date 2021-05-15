@@ -89,6 +89,18 @@
 					return active_shape;
 				}
 
+				// Sets active color to a shape button, reset shape button back to circle
+				function settingActiveColor(shape, button, color) {
+					let temp_color = color;
+					active_color = button;
+					let temp_shape = shape;
+					active_shape = buttons[3];
+					temp_shape.classList.remove(temp_color.classList[2]);
+					active_shape.classList.add(active_color.classList[2]);
+					console.log(active_shape);
+					return active_shape;
+				}
+
 				for (let i = 0; i < buttons.length; i++) {
 					buttons[i].addEventListener("click", function () {
 						let shape;
@@ -96,12 +108,14 @@
 							active_shape = settingActiveShape(active_shape, buttons[i], active_color);
 							active_shape;
 						} else if (buttons[i].classList.contains("colors")) {
-							let temp_color = active_color;
-							active_color = buttons[i];
-							let temp_shape = active_shape;
-							active_shape = buttons[3];
-							temp_shape.classList.remove(temp_color.classList[2]);
-							active_shape.classList.add(active_color.classList[2]);
+							// let temp_color = active_color;
+							// active_color = buttons[i];
+							// let temp_shape = active_shape;
+							// active_shape = buttons[3];
+							// temp_shape.classList.remove(temp_color.classList[2]);
+							// active_shape.classList.add(active_color.classList[2]);
+							active_shape = settingActiveColor(active_shape, buttons[i], active_color);
+							active_shape;
 						} else if (buttons[i].classList.contains("btn-reset")) {
 							canvas.innerHTML = "";
 						}
@@ -125,6 +139,21 @@
 
 					canvas.innerHTML += shape.display();
 				});
+
+				function shrink() {
+					let shapes = document.querySelectorAll("p");
+					for (let i = 0; i < shapes.length; i++) {
+						shapes[i].style.height = `${parseInt(shapes[i].style.height) - 10}px`;
+						shapes[i].style.width = `${parseInt(shapes[i].style.width) - 10}px`;
+						if (parseInt(shapes[i].style.height) === 0 && parseInt(shapes[i].style.width) === 0) {
+							shapes[i].remove();
+						}
+					}
+				}
+
+				setInterval(() => {
+					shrink();
+				}, 500);
 			});
 		</script>
 	</head>
