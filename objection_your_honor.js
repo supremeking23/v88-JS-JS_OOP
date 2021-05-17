@@ -126,7 +126,7 @@ class Case {
 class TrialCourt {
 	constructor() {}
 
-	getVerdict(defendant) {
+	static getVerdict(defendant) {
 		var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 		if (defendant.is_convicted) {
 			console.log(`GUILTY`);
@@ -136,7 +136,7 @@ class TrialCourt {
 		}
 	}
 
-	initiateTrial(defendant, prosecutor) {
+	static initiateTrial(defendant, prosecutor) {
 		console.log(`Name: ${defendant.name}`);
 		console.log(`Age: ${defendant.age} years old`);
 		console.log(`Case Title: ${defendant.case_title}`);
@@ -151,14 +151,14 @@ let case1 = new Case("Murder", 3, 3, 3, 18, 78);
 let prosecutor = new Prosecutor("John", 44);
 let defendant1 = new Defendant("George", 23);
 prosecutor.prosecute(defendant1, case1);
-let trialOne = new TrialCourt();
-trialOne.initiateTrial(defendant1, prosecutor);
-
+// let trialOne = new TrialCourt();
+// trialOne.initiateTrial(defendant1, prosecutor);
+TrialCourt.initiateTrial(defendant1, prosecutor);
 console.log(`\n\n=========== Defendant 2============`);
 let defendant2 = new Defendant("Chris", 7);
 prosecutor.prosecute(defendant2, case1);
-let trialTwo = new TrialCourt();
-trialTwo.initiateTrial(defendant2, prosecutor);
-
+// let trialTwo = new TrialCourt();
+// trialTwo.initiateTrial(defendant2, prosecutor);
+TrialCourt.initiateTrial(defendant2, prosecutor);
 // console.log(`\n\n=========== Case 2============`);
 // let case2 = new Case("Malic")

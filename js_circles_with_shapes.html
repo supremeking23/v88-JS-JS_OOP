@@ -76,6 +76,7 @@
 				let buttons = document.querySelectorAll("button");
 				let canvas = document.querySelector(".canvas");
 
+				// initial active color,shape
 				let active_color = buttons[0];
 				let active_shape = buttons[3];
 				active_shape.classList.add(active_color.classList[2]);
@@ -128,11 +129,12 @@
 					let shapeColor = active_color.classList[2];
 					let shape;
 					if (active_shape.classList[2] == "btn-circle") {
-						shape = new Circles(e.clientY, e.clientX, shapeColor);
+						// y,x,color,radius,class
+						shape = new Circles(e.clientY, e.clientX, shapeColor, 50, "btn-circle");
 					} else if (active_shape.classList[2] == "btn-square") {
-						shape = new Square(e.clientY, e.clientX, shapeColor);
+						shape = new Square(e.clientY, e.clientX, shapeColor, 0, "btn-square");
 					} else {
-						shape = new Star(e.clientY, e.clientX, shapeColor);
+						shape = new Star(e.clientY, e.clientX, shapeColor, 0, "btn-star");
 					}
 
 					console.log(active_shape.classList[2]);
